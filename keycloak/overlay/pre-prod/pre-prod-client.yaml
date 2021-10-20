@@ -1,0 +1,16 @@
+apiVersion: keycloak.org/v1alpha1
+kind: KeycloakClient
+metadata:
+  name: pre-prod-client
+  namespace: keycloak
+  labels:
+    app: sso
+spec:
+  client:
+    clientAuthenticatorType: client-secret
+    clientId: pre-prod-client
+    directAccessGrantsEnabled: true
+    secret: client-secret
+  realmSelector:
+    matchLabels:
+      app: sso
