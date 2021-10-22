@@ -1,0 +1,157 @@
+kind: DeploymentConfig
+apiVersion: apps.openshift.io/v1
+metadata:
+  name: apicast-production
+  namespace: 3scale
+  labels:
+    app: 3scale-api-management
+    threescale_component: apicast
+    threescale_component_element: production
+spec:
+  strategy:
+    type: Rolling
+    rollingParams:
+      updatePeriodSeconds: 1
+      intervalSeconds: 1
+      timeoutSeconds: 1800
+      maxUnavailable: 25%
+      maxSurge: 25%
+    resources: {}
+    activeDeadlineSeconds: 21600
+  triggers:
+    - type: ConfigChange
+    - type: ImageChange
+      imageChangeParams:
+        automatic: true
+        containerNames:
+          - system-master-svc
+          - apicast-production
+        from:
+          kind: ImageStreamTag
+          namespace: 3scale
+          name: 'amp-apicast:2.10'
+        lastTriggeredImage: >-
+          registry.redhat.io/3scale-amp2/apicast-gateway-rhel8@sha256:479b4fe71b59333733eb4e12e68724cf20d6fd16e1eb34214ace5cc43effb81c
+  replicas: 1
+  revisionHistoryLimit: 10
+  test: false
+  selector:
+    deploymentConfig: apicast-production
+  template:
+    metadata:
+      creationTimestamp: null
+      labels:
+        com.redhat.product-name: 3scale
+        app: 3scale-api-management
+        com.redhat.component-type: application
+        com.redhat.product-version: '2.10'
+        deploymentConfig: apicast-production
+        threescale_component_element: production
+        threescale_component: apicast
+        com.redhat.component-version: ''
+        com.redhat.component-name: apicast-production
+      annotations:
+        prometheus.io/port: '9421'
+        prometheus.io/scrape: 'true'
+    spec:
+      restartPolicy: Always
+      initContainers:
+        - name: system-master-svc
+          image: >-
+            registry.redhat.io/3scale-amp2/apicast-gateway-rhel8@sha256:479b4fe71b59333733eb4e12e68724cf20d6fd16e1eb34214ace5cc43effb81c
+          command:
+            - sh
+            - '-c'
+            - >-
+              until $(curl --output /dev/null --silent --fail --head
+              http://system-master:3000/status); do sleep $SLEEP_SECONDS; done
+          env:
+            - name: SLEEP_SECONDS
+              value: '1'
+          resources: {}
+          terminationMessagePath: /dev/termination-log
+          terminationMessagePolicy: File
+          imagePullPolicy: Always
+      serviceAccountName: amp
+      schedulerName: default-scheduler
+      terminationGracePeriodSeconds: 30
+      securityContext: {}
+      containers:
+        - resources:
+            limits:
+              cpu: '1'
+              memory: 128Mi
+            requests:
+              cpu: 500m
+              memory: 64Mi
+          readinessProbe:
+            httpGet:
+              path: /status/ready
+              port: 8090
+              scheme: HTTP
+            initialDelaySeconds: 15
+            timeoutSeconds: 5
+            periodSeconds: 30
+            successThreshold: 1
+            failureThreshold: 3
+          terminationMessagePath: /dev/termination-log
+          name: apicast-production
+          livenessProbe:
+            httpGet:
+              path: /status/live
+              port: 8090
+              scheme: HTTP
+            initialDelaySeconds: 10
+            timeoutSeconds: 5
+            periodSeconds: 10
+            successThreshold: 1
+            failureThreshold: 3
+          env:
+            - name: THREESCALE_PORTAL_ENDPOINT
+              valueFrom:
+                secretKeyRef:
+                  name: system-master-apicast
+                  key: PROXY_CONFIGS_ENDPOINT
+            - name: BACKEND_ENDPOINT_OVERRIDE
+              valueFrom:
+                secretKeyRef:
+                  name: backend-listener
+                  key: service_endpoint
+            - name: APICAST_MANAGEMENT_API
+              valueFrom:
+                configMapKeyRef:
+                  name: apicast-environment
+                  key: APICAST_MANAGEMENT_API
+            - name: OPENSSL_VERIFY
+              valueFrom:
+                configMapKeyRef:
+                  name: apicast-environment
+                  key: OPENSSL_VERIFY
+            - name: APICAST_RESPONSE_CODES
+              valueFrom:
+                configMapKeyRef:
+                  name: apicast-environment
+                  key: APICAST_RESPONSE_CODES
+            - name: APICAST_EXTENDED_METRICS
+              value: 'true'
+            - name: APICAST_CONFIGURATION_LOADER
+              value: boot
+            - name: APICAST_CONFIGURATION_CACHE
+              value: '300'
+            - name: THREESCALE_DEPLOYMENT_ENV
+              value: production
+          ports:
+            - containerPort: 8080
+              protocol: TCP
+            - containerPort: 8090
+              protocol: TCP
+            - name: metrics
+              containerPort: 9421
+              protocol: TCP
+          imagePullPolicy: IfNotPresent
+          terminationMessagePolicy: File
+          image: >-
+            registry.redhat.io/3scale-amp2/apicast-gateway-rhel8@sha256:479b4fe71b59333733eb4e12e68724cf20d6fd16e1eb34214ace5cc43effb81c
+      serviceAccount: amp
+      dnsPolicy: ClusterFirst
+

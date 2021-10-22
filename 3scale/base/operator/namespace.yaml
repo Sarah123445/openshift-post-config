@@ -1,0 +1,6 @@
+kind: Namespace
+apiVersion: v1
+metadata:
+  name: 3scale
+  labels:
+    kubernetes.io/metadata.name: 3scale
