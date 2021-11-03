@@ -10,6 +10,6 @@ spec:
   source:
     path: 3scale
     repoURL: 'https://github.com/Sarah123445/openshift-post-config.git'
-    targetRevision: master
+    targetRevision: main
   syncPolicy:
     automated: {}
