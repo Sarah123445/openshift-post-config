@@ -3,3 +3,19 @@ kind: Kustomization
 
 bases:
 - ../../base
+
+patches:
+- target:
+    group: argoproj.io
+    version: v1alpha1
+    kind: Application
+    name: keycloak
+    namespace: openshift-gitops
+  path: keycloak-patch.yaml
+- target:
+    group: argoproj.io
+    version: v1alpha1
+    kind: Application
+    name: 3scale
+    namespace: openshift-gitops
+  path: 3scale-patch.yaml
