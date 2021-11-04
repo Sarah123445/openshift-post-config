@@ -5,4 +5,5 @@ bases:
 - operator/namespace.yaml
 - operator/operator-subscription.yaml
 - instance/keycloak.yaml
+- operator/operator-group.yaml
 
