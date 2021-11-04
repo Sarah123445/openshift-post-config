@@ -30,8 +30,6 @@ spec:
           kind: ImageStreamTag
           namespace: 3scale
           name: 'amp-apicast:2.10'
-        lastTriggeredImage: >-
-          registry.redhat.io/3scale-amp2/apicast-gateway-rhel8@sha256:479b4fe71b59333733eb4e12e68724cf20d6fd16e1eb34214ace5cc43effb81c
   replicas: 1
   revisionHistoryLimit: 10
   test: false
