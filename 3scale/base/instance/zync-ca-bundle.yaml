@@ -1,0 +1,14 @@
+kind: ConfigMap
+apiVersion: v1
+metadata:
+  name: zync-ca-bundle
+  namespace: 3scale
+data:
+  ca-cert.pem: |
+    -----BEGIN CERTIFICATE-----
+    MIIEATCCAumgAwIBAgIUBvFqdfRk1aFJdtq92nC0vZLPWiowDQYJKoZIhvcNAQEL
+    BQAwgY4xCzAJBgNVBAYTAkFVMRMwEQYDVQQIDApRdWVlbnNsYW5kMREwDwYDVQQH
+    DAhCcmlzYmFuZTEPMA0GA1UECgwGUmVkSGF0MRMwEQYDVQQLDApjb25zdWx0YW50
+    MQ0wCwYDVQQDDAR0ZXN0MSIwIAYJKoZIhvcNAQkBFhNtc3BlbmNlckByZWRoYXQu
+    Y29tMCAXDTIxMDkyMzA2NDEyN1oYDzMwMjEwMTI0MDY0MTI3WjCBjjELMAkGA1UE
+    Bh
