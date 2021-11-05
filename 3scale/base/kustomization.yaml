@@ -7,3 +7,4 @@ bases:
 - operator/operator-group.yaml
 - instance/apicast.yaml
 - instance/api-manager.yaml
+- instance/zync-ca-bundle.yaml
