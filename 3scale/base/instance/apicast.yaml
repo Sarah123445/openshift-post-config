@@ -1,18 +1,18 @@
 apiVersion: apps.openshift.io/v1
 kind: DeploymentConfig
 metadata:
-  name: apicast
+  name: apicast-production
   namespace: 3scale
 spec:
   replicas: 1
   selector:
-    deploymentconfig: apicast
+    deploymentconfig: apicast-production
   strategy:
     type: Rolling
   template:
     metadata:
       labels:
-        deploymentconfig: apicast
+        deploymentconfig: apicast-production
       annotations:
         prometheus.io/scrape: 'true'
         prometheus.io/port: '9421'
@@ -41,7 +41,7 @@ spec:
           value: "False"
         image: "registry.redhat.io/3scale-amp2/apicast-gateway-rhel8:3scale2.10"
         imagePullPolicy: IfNotPresent
-        name: apicast
+        name: apicast-production
         livenessProbe:
           httpGet:
             path: /status/live
@@ -87,7 +87,7 @@ spec:
 kind: Service
 apiVersion: v1
 metadata:
-  name: apicast-svc
+  name: apicast-production-svc
   namespace: 3scale
   labels:
     app: 3scale-api-management
@@ -106,17 +106,17 @@ spec:
       port: 8443
       targetPort: 8443
   selector:
-    deploymentconfig: apicast
+    deploymentconfig: apicast-production
 ---
 kind: Route
 apiVersion: route.openshift.io/v1
 metadata:
-  name: apicast
+  name: apicast-production
   namespace: 3scale
 spec:
   to:
     kind: Service
-    name: apicast
+    name: apicast-production
     weight: 100
   port:
     targetPort: https
