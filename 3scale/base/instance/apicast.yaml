@@ -1,155 +1,125 @@
-kind: DeploymentConfig
 apiVersion: apps.openshift.io/v1
+kind: DeploymentConfig
 metadata:
-  name: apicast-production
+  name: apicast
+  namespace: 3scale
+spec:
+  replicas: 1
+  selector:
+    deploymentconfig: apicast
+  strategy:
+    type: Rolling
+  template:
+    metadata:
+      labels:
+        deploymentconfig: apicast
+      annotations:
+        prometheus.io/scrape: 'true'
+        prometheus.io/port: '9421'
+    spec:
+      containers:
+      - env:
+        # - name: THREESCALE_PORTAL_ENDPOINT
+          # value: abc-123
+          # valueFrom:
+            # secretKeyRef:
+              # name: apicast-configuration-url-secret
+              # key: password
+        # - name: THREESCALE_CONFIG_FILE
+          # value: 
+        - name: THREESCALE_DEPLOYMENT_ENV
+          value: production
+        - name: APICAST_CONFIGURATION_LOADER
+          value: lazy
+        - name: APICAST_PATH_ROUTING
+          value: "False"
+        - name: APICAST_RESPONSE_CODES
+          value: "False"
+        - name: APICAST_MANAGEMENT_API
+          value: status
+        - name: OPENSSL_VERIFY
+          value: "False"
+        image: "registry.redhat.io/3scale-amp2/apicast-gateway-rhel8:3scale2.10"
+        imagePullPolicy: IfNotPresent
+        name: apicast
+        livenessProbe:
+          httpGet:
+            path: /status/live
+            port: 8090
+            scheme: HTTP
+          initialDelaySeconds: 30
+          timeoutSeconds: 3
+          failureThreshold: 3
+          periodSeconds: 10
+          successThreshold: 1
+        readinessProbe:
+          httpGet:
+            path: /status/ready
+            port: 8090
+            scheme: HTTP
+          initialDelaySeconds: 60
+          timeoutSeconds: 3
+          failureThreshold: 3
+          periodSeconds: 10
+          successThreshold: 1
+        ports:
+        - name: proxy
+          containerPort: 8080
+          protocol: TCP
+        - name: management
+          containerPort: 8090
+          protocol: TCP
+        - name: metrics
+          containerPort: 9421
+          protocol: TCP
+        resources:
+          limits:
+              cpu: '1'
+              memory: 128Mi
+          requests:
+              cpu: 500m
+              memory: 64Mi
+        terminationMessagePath: /dev/termination-log	
+        terminationMessagePolicy: File
+  triggers:
+  - type: ConfigChange
+---
+kind: Service
+apiVersion: v1
+metadata:
+  name: apicast-svc
   namespace: 3scale
   labels:
     app: 3scale-api-management
-    threescale_component: apicast
-    threescale_component_element: production
 spec:
-  strategy:
-    type: Rolling
-    rollingParams:
-      updatePeriodSeconds: 1
-      intervalSeconds: 1
-      timeoutSeconds: 1800
-      maxUnavailable: 25%
-      maxSurge: 25%
-    resources: {}
-    activeDeadlineSeconds: 21600
-  triggers:
-    - type: ConfigChange
-    - type: ImageChange
-      imageChangeParams:
-        automatic: true
-        containerNames:
-          - system-master-svc
-          - apicast-production
-        from:
-          kind: ImageStreamTag
-          namespace: 3scale
-          name: 'amp-apicast:2.10'
-  replicas: 1
-  revisionHistoryLimit: 10
-  test: false
+  ports:
+    - name: gateway
+      protocol: TCP
+      port: 8080
+      targetPort: 8080
+    - name: management
+      protocol: TCP
+      port: 8090
+      targetPort: 8090
+    - name: https
+      protocol: TCP
+      port: 8443
+      targetPort: 8443
   selector:
-    deploymentConfig: apicast-production
-  template:
-    metadata:
-      creationTimestamp: null
-      labels:
-        com.redhat.product-name: 3scale
-        app: 3scale-api-management
-        com.redhat.component-type: application
-        com.redhat.product-version: '2.10'
-        deploymentConfig: apicast-production
-        threescale_component_element: production
-        threescale_component: apicast
-        com.redhat.component-version: ''
-        com.redhat.component-name: apicast-production
-      annotations:
-        prometheus.io/port: '9421'
-        prometheus.io/scrape: 'true'
-    spec:
-      restartPolicy: Always
-      initContainers:
-        - name: system-master-svc
-          image: >-
-            registry.redhat.io/3scale-amp2/apicast-gateway-rhel8@sha256:479b4fe71b59333733eb4e12e68724cf20d6fd16e1eb34214ace5cc43effb81c
-          command:
-            - sh
-            - '-c'
-            - >-
-              until $(curl --output /dev/null --silent --fail --head
-              http://system-master:3000/status); do sleep $SLEEP_SECONDS; done
-          env:
-            - name: SLEEP_SECONDS
-              value: '1'
-          resources: {}
-          terminationMessagePath: /dev/termination-log
-          terminationMessagePolicy: File
-          imagePullPolicy: Always
-      serviceAccountName: amp
-      schedulerName: default-scheduler
-      terminationGracePeriodSeconds: 30
-      securityContext: {}
-      containers:
-        - resources:
-            limits:
-              cpu: '1'
-              memory: 128Mi
-            requests:
-              cpu: 500m
-              memory: 64Mi
-          readinessProbe:
-            httpGet:
-              path: /status/ready
-              port: 8090
-              scheme: HTTP
-            initialDelaySeconds: 15
-            timeoutSeconds: 5
-            periodSeconds: 30
-            successThreshold: 1
-            failureThreshold: 3
-          terminationMessagePath: /dev/termination-log
-          name: apicast-production
-          livenessProbe:
-            httpGet:
-              path: /status/live
-              port: 8090
-              scheme: HTTP
-            initialDelaySeconds: 10
-            timeoutSeconds: 5
-            periodSeconds: 10
-            successThreshold: 1
-            failureThreshold: 3
-          env:
-            - name: THREESCALE_PORTAL_ENDPOINT
-              valueFrom:
-                secretKeyRef:
-                  name: system-master-apicast
-                  key: PROXY_CONFIGS_ENDPOINT
-            - name: BACKEND_ENDPOINT_OVERRIDE
-              valueFrom:
-                secretKeyRef:
-                  name: backend-listener
-                  key: service_endpoint
-            - name: APICAST_MANAGEMENT_API
-              valueFrom:
-                configMapKeyRef:
-                  name: apicast-environment
-                  key: APICAST_MANAGEMENT_API
-            - name: OPENSSL_VERIFY
-              valueFrom:
-                configMapKeyRef:
-                  name: apicast-environment
-                  key: OPENSSL_VERIFY
-            - name: APICAST_RESPONSE_CODES
-              valueFrom:
-                configMapKeyRef:
-                  name: apicast-environment
-                  key: APICAST_RESPONSE_CODES
-            - name: APICAST_EXTENDED_METRICS
-              value: 'true'
-            - name: APICAST_CONFIGURATION_LOADER
-              value: boot
-            - name: APICAST_CONFIGURATION_CACHE
-              value: '300'
-            - name: THREESCALE_DEPLOYMENT_ENV
-              value: production
-          ports:
-            - containerPort: 8080
-              protocol: TCP
-            - containerPort: 8090
-              protocol: TCP
-            - name: metrics
-              containerPort: 9421
-              protocol: TCP
-          imagePullPolicy: IfNotPresent
-          terminationMessagePolicy: File
-          image: >-
-            registry.redhat.io/3scale-amp2/apicast-gateway-rhel8@sha256:479b4fe71b59333733eb4e12e68724cf20d6fd16e1eb34214ace5cc43effb81c
-      serviceAccount: amp
-      dnsPolicy: ClusterFirst
-
+    deploymentconfig: apicast
+---
+kind: Route
+apiVersion: route.openshift.io/v1
+metadata:
+  name: apicast
+  namespace: 3scale
+spec:
+  to:
+    kind: Service
+    name: apicast
+    weight: 100
+  port:
+    targetPort: https
+  tls:
+    termination: passthrough
+  wildcardPolicy: None
