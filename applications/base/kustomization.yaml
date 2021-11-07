@@ -5,3 +5,4 @@ bases:
 - keycloak.yaml
 - 3scale.yaml
 - gitops.yaml
+- applications.yaml
