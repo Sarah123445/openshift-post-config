@@ -30,6 +30,6 @@ patches:
     group: argoproj.io
     version: v1alpha1
     kind: Application
-    name: gitops
+    name: applications
     namespace: openshift-gitops
   path: applications-patch.yaml
