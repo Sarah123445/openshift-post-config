@@ -1,0 +1,133 @@
+kind: DeploymentConfig
+apiVersion: apps.openshift.io/v1
+metadata:
+  name: zync-que
+  namespace: 3scale
+  labels:
+    app: 3scale-api-management
+    threescale_component: zync
+    threescale_component_element: zync-que
+spec:
+  strategy:
+    type: Rolling
+    rollingParams:
+      updatePeriodSeconds: 1
+      intervalSeconds: 1
+      timeoutSeconds: 600
+      maxUnavailable: 25%
+      maxSurge: 25%
+    resources: {}
+    activeDeadlineSeconds: 21600
+  triggers:
+    - type: ConfigChange
+    - type: ImageChange
+      imageChangeParams:
+        automatic: true
+        containerNames:
+          - que
+        from:
+          kind: ImageStreamTag
+          namespace: 3scale
+          name: 'amp-zync:2.10'
+  replicas: 1
+  revisionHistoryLimit: 10
+  test: false
+  selector:
+    deploymentConfig: zync-que
+  template:
+    metadata:
+      labels:
+        com.redhat.product-name: 3scale
+        app: 3scale-api-management
+        com.redhat.component-type: application
+        com.redhat.product-version: '2.10'
+        deploymentConfig: zync-que
+        threescale_component_element: zync-que
+        threescale_component: zync
+        com.redhat.component-version: ''
+        com.redhat.component-name: zync-que
+      annotations:
+        prometheus.io/port: '9394'
+        prometheus.io/scrape: 'true'
+    spec:
+      volumes:
+        - configMap:
+            name: zync-ca-bundle
+          name: zync-ca-bundle
+      containers:
+        - resources:
+            limits:
+              cpu: '1'
+              memory: 512Mi
+            requests:
+              cpu: 250m
+              memory: 250M
+          terminationMessagePath: /dev/termination-log
+          name: que
+          command:
+            - /usr/bin/bash
+          livenessProbe:
+            httpGet:
+              path: /metrics
+              port: 9394
+              scheme: HTTP
+            initialDelaySeconds: 10
+            timeoutSeconds: 60
+            periodSeconds: 10
+            successThreshold: 1
+            failureThreshold: 3
+          env:
+            - name: RAILS_LOG_TO_STDOUT
+              value: 'true'
+            - name: RAILS_ENV
+              value: production
+            - name: SSL_CERT_FILE
+              value: '/etc/pki/tls/zync/ca-cert.pem'
+            - name: DATABASE_URL
+              valueFrom:
+                secretKeyRef:
+                  name: zync
+                  key: DATABASE_URL
+            - name: SECRET_KEY_BASE
+              valueFrom:
+                secretKeyRef:
+                  name: zync
+                  key: SECRET_KEY_BASE
+            - name: ZYNC_AUTHENTICATION_TOKEN
+              valueFrom:
+                secretKeyRef:
+                  name: zync
+                  key: ZYNC_AUTHENTICATION_TOKEN
+            - name: POD_NAME
+              valueFrom:
+                fieldRef:
+                  apiVersion: v1
+                  fieldPath: metadata.name
+            - name: POD_NAMESPACE
+              valueFrom:
+                fieldRef:
+                  apiVersion: v1
+                  fieldPath: metadata.namespace
+          ports:
+            - name: metrics
+              containerPort: 9394
+              protocol: TCP
+          imagePullPolicy: Always
+          volumeMounts:
+            - name: zync-ca-bundle
+              mountPath: /etc/pki/tls/zync/ca-cert.pem
+              subPath: ca-cert.pem
+          terminationMessagePolicy: File
+          image: >-
+            registry.redhat.io/3scale-amp2/zync-rhel7@sha256:f92c261bd19303f40eea135543b890ed805c058ede2b5cb520714273023a528d
+          args:
+            - '-c'
+            - 'bundle exec rake ''que[--worker-count 10]'''
+      restartPolicy: Always
+      terminationGracePeriodSeconds: 30
+      dnsPolicy: ClusterFirst
+      serviceAccountName: zync-que-sa
+      serviceAccount: zync-que-sa
+      securityContext: {}
+      schedulerName: default-scheduler
+

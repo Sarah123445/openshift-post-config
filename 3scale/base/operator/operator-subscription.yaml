@@ -9,4 +9,4 @@ spec:
   name: 3scale-operator
   source: redhat-operators
   sourceNamespace: openshift-marketplace
-  startingCSV: 3scale-operator.v0.8.0
+  startingCSV: 3scale-operator.v0.7.0
