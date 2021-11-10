@@ -6,3 +6,5 @@ bases:
 - 3scale.yaml
 - gitops.yaml
 - applications.yaml
+- cluster-logging.yaml
+- elasticsearch.yaml

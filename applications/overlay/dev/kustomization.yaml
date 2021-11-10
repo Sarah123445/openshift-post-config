@@ -33,3 +33,17 @@ patches:
     name: applications
     namespace: openshift-gitops
   path: applications-patch.yaml
+- target:
+    group: argoproj.io
+    version: v1alpha1
+    kind: Application
+    name: cluster-logging
+    namespace: openshift-gitops
+  path: cluster-logging-patch.yaml
+- target:
+    group: argoproj.io
+    version: v1alpha1
+    kind: Application
+    name: elastisearch
+    namespace: openshift-gitops
+  path: elastisearch-patch.yaml
