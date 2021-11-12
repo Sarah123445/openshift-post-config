@@ -1,0 +1,26 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: cert-install
+  namespace: 3scale
+  annotations:
+    argocd.argoproj.io/hook: PostSync
+    argocd.argoproj.io/hook-delete-policy: HookSucceeded
+spec:
+  template:
+      spec:
+        containers:
+          - image: registry.redhat.io/openshift4/ose-cli:v4.8
+            command:
+              - /bin/bash
+              - -c
+              - |
+                set -e
+                echo "Storing zync pod name as POD environment variable"
+                POD= `oc get ep zync -o jsonpath={.subsets[0].addresses[0].targetRef.name}`
+                echo "Extracting zync pod certs as output to txt"
+                oc exec ${POD} cat /etc/pki/tls/cert.pem >> zync.pem
+                echo "Extract custom certs from config map"
+                oc exec 
+            imagePullPolicy: Always
+            name: cert-install
