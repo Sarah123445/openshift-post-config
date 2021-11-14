@@ -21,6 +21,8 @@ spec:
                 echo "Extracting zync pod certs as output to txt"
                 oc exec ${POD} cat /etc/pki/tls/cert.pem >> zync.pem
                 echo "Extract custom certs from config map"
-                oc exec 
+                oc get configmap custom-cert -o jsonpath={.data.custom-cert} >> zync.pem
+                echo "Create configmap on cluster containing zync.pem"
+                oc create configmap zync-ca-bundle --from-file=zync.pem
             imagePullPolicy: Always
             name: cert-install
