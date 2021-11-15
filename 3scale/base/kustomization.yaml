@@ -9,3 +9,4 @@ bases:
 - instance/api-manager.yaml
 - instance/custom-cert.yaml
 - instance/zync-que.yaml
+- instance/zync-post-job.yaml
