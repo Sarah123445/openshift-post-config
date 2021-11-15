@@ -24,5 +24,9 @@ spec:
                 oc get configmap custom-cert -o jsonpath={.data.custom-cert} >> zync.pem
                 echo "Create configmap on cluster containing zync.pem"
                 oc create configmap zync-ca-bundle --from-file=zync.pem
+                echo "Set volume for zync pod"
+                oc set volume dc/zync --add --name=zync-ca-bundle --mount-path /etc/pki/tls/zync/zync.pem --sub-path zync.pem --source='{"configMap":{"name":"zync-ca-bundle","items":[{"key":"zync.pem","path":"zync.pem"}]}}'
+                echo "Set SSL_CERT_FILE variable against Zync Pod"
+                oc set env dc/zync SSL_CERT_FILE=/etc/pki/tls/zync/zync.pem
             imagePullPolicy: Always
             name: cert-install
