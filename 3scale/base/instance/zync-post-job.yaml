@@ -30,3 +30,4 @@ spec:
                 oc set env dc/zync SSL_CERT_FILE=/etc/pki/tls/zync/zync.pem
             imagePullPolicy: Always
             name: cert-install
+        restartPolicy: "OnFailure"
