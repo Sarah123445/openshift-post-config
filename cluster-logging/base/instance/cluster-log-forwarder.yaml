@@ -5,9 +5,9 @@ metadata:
   namespace: openshift-logging
 spec:
   outputDefaults:
-    - elasticsearch:
-        structuredTypeKey: kubernetes.labels.logFormat 
-        structuredTypeName: nologformat
+    elasticsearch:
+      structuredTypeKey: kubernetes.labels.logFormat 
+      structuredTypeName: nologformat
   pipelines:
     - inputRefs:
         - application
