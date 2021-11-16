@@ -43,6 +43,7 @@ rules:
     resources:
       - elasticsearches
       - clusterloggings
+      - clusterlogforwarders
   - verbs:
       - '*'
     apiGroups:
