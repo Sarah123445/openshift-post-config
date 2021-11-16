@@ -10,13 +10,11 @@ spec:
       structuredTypeName: nologformat
   pipelines:
     - inputRefs:
-        - application
         - infrastructure
         - audit
       name: enable-default-log-store
       outputRefs:
         - default
-      parse: json
     - inputRefs:
         - application
       name: json-parsing
