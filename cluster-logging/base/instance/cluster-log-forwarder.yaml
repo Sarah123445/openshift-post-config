@@ -16,6 +16,7 @@ spec:
       name: enable-default-log-store
       outputRefs:
         - default
+      parse: json
     - inputRefs:
         - application
       name: json-parsing
