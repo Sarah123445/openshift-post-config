@@ -9,3 +9,4 @@ resources:
 - operator/operatorgroup.yaml
 - operator/subscription.yaml
 - instance/kibana.yaml
+- instance/cluster-log-forwarder.yaml
