@@ -4,6 +4,10 @@ metadata:
   name: instance
   namespace: openshift-logging
 spec:
+  outputDefaults:
+    - elasticsearch:
+        structuredTypeKey: kubernetes.labels.logFormat 
+        structuredTypeName: nologformat
   pipelines:
     - inputRefs:
         - application
@@ -18,7 +22,3 @@ spec:
       outputRefs:
         - default
       parse: json
-      outputDefaults:
-      - elasticsearch:
-          structuredTypeKey: kubernetes.labels.logFormat 
-          structuredTypeName: nologformat
