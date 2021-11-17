@@ -17,7 +17,7 @@ spec:
               - |
                 set -e
                 echo "Storing zync pod name as POD environment variable"
-                POD= `oc get ep zync -o jsonpath={.subsets[0].addresses[0].targetRef.name}`
+                POD=`oc get ep zync -o jsonpath={.subsets[0].addresses[0].targetRef.name}`
                 echo "Extracting zync pod certs as output to txt"
                 oc exec ${POD} cat /etc/pki/tls/cert.pem >> zync.pem
                 echo "Extract custom certs from config map"
