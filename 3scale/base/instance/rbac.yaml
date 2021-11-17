@@ -12,6 +12,7 @@ rules:
     resources:
       - endpoints
       - pods
+      - pods/exec
 ---
 kind: ClusterRoleBinding
 apiVersion: rbac.authorization.k8s.io/v1
