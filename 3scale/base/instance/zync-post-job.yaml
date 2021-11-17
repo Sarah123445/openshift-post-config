@@ -19,11 +19,11 @@ spec:
                 echo "Storing zync pod name as POD environment variable"
                 POD=`oc get ep zync -o jsonpath={.subsets[0].addresses[0].targetRef.name}`
                 echo "Extracting zync pod certs as output to txt"
-                oc exec ${POD} cat /etc/pki/tls/cert.pem >> zync.pem
+                oc exec ${POD} cat /etc/pki/tls/cert.pem >> /var/tmp/zync.pem
                 echo "Extract custom certs from config map"
-                oc get configmap custom-cert -o jsonpath={.data.custom-cert} >> zync.pem
+                oc get configmap custom-cert -o jsonpath={.data.custom-cert} >> /var/tmp/zync.pem
                 echo "Create configmap on cluster containing zync.pem"
-                oc create configmap zync-ca-bundle --from-file=zync.pem
+                oc create configmap zync-ca-bundle --from-file=/var/tmp/zync.pem
                 echo "Set volume for zync pod"
                 oc set volume dc/zync --add --name=zync-ca-bundle --mount-path /etc/pki/tls/zync/zync.pem --sub-path zync.pem --source='{"configMap":{"name":"zync-ca-bundle","items":[{"key":"zync.pem","path":"zync.pem"}]}}'
                 echo "Set SSL_CERT_FILE variable against Zync Pod"
