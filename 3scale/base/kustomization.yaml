@@ -10,3 +10,4 @@ bases:
 - instance/custom-cert.yaml
 - instance/zync-que.yaml
 - instance/zync-post-job.yaml
+- instance/rbac.yaml
