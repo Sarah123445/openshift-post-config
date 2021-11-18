@@ -8,3 +8,4 @@ bases:
 - applications.yaml
 - cluster-logging.yaml
 - elasticsearch.yaml
+- grafana.yaml
