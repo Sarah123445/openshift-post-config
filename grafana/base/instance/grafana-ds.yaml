@@ -7,7 +7,7 @@ spec:
   datasources:
     - access: proxy
       editable: true
-      isDefault: true
+      isDefault: false
       jsonData:
         httpHeaderName1: 'Authorization'
         timeInterval: 5s
