@@ -77,6 +77,12 @@ rules:
       - "project.openshift.io"
     resources:
       - projects
+  - verbs:
+      - '*'
+    apiGroups:
+      - "monitoring.coreos.com"
+    resources:
+      - servicemonitors
 ---
 kind: ClusterRoleBinding
 apiVersion: rbac.authorization.k8s.io/v1
