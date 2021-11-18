@@ -17,3 +17,4 @@ bases:
 - instance/patch-grafana-ds-sa.yaml
 - instance/patch-grafana-ds-job.yaml
 - instance/cluster-monitor-view-rb.yaml
+- instance/service-monitor-springboot.yaml
