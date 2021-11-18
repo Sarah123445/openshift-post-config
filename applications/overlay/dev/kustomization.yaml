@@ -47,3 +47,10 @@ patches:
     name: elastisearch
     namespace: openshift-gitops
   path: elastisearch-patch.yaml
+- target:
+    group: argoproj.io
+    version: v1alpha1
+    kind: Application
+    name: grafana
+    namespace: openshift-gitops
+  path: grafana-patch.yaml
