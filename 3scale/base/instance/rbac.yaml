@@ -6,7 +6,7 @@ metadata:
     app.kubernetes.io/instance: openshift-gitops
 rules:
   - verbs:
-      - '*'
+      - "*"
     apiGroups:
       - ""
     resources:
@@ -16,7 +16,7 @@ rules:
       - configmaps
       - deploymentconfigs
   - verbs:
-      - '*'
+      - "*"
     apiGroups:
       - "apps.openshift.io"
     resources:
