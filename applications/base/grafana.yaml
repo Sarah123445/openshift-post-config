@@ -13,3 +13,9 @@ spec:
     targetRevision: main
   syncPolicy:
     automated: {}
+  ignoreDifferences:
+    - group: integreatly.org
+      kind: GrafanaDataSource
+      jsonPointers: 
+        - /spec/datasources/secureJsonData/httpHeaderValue1
+        
