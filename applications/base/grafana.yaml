@@ -17,5 +17,5 @@ spec:
     - group: integreatly.org
       kind: GrafanaDataSource
       jsonPointers: 
-        - /spec/datasources/secureJsonData/httpHeaderValue1
+        - /spec/datasources/0/secureJsonData/httpHeaderValue1
         
