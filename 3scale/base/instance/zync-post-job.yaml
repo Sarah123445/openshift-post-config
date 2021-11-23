@@ -23,7 +23,8 @@ spec:
                 echo "Extract custom certs from config map"
                 oc get configmap custom-cert -o jsonpath={.data.custom-cert} >> /var/tmp/zync.pem
                 echo "Create configmap on cluster containing zync.pem"
-                if oc get configmap zync-ca-bundle ; then 
+                if oc get configmap zync-ca-bundle
+                then 
                   oc delete configmap zync-ca-bundle
                 fi
                 oc create configmap zync-ca-bundle --from-file=/var/tmp/zync.pem
