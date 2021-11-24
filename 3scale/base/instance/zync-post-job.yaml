@@ -28,10 +28,6 @@ spec:
                 #then 
                 #  oc delete configmap zync-ca-bundle
                 #fi
-                f() { false; oc get configmap zync-ca-bundle; }
-                if f; then
-                    oc delete configmap zync-ca-bundle
-                fi
                 oc create configmap zync-ca-bundle --from-file=/var/tmp/zync.pem
                 echo "Set volume for zync pod"
                 oc set volume dc/zync --add --name=zync-ca-bundle --mount-path /etc/pki/tls/zync/zync.pem --sub-path zync.pem --source='{"configMap":{"name":"zync-ca-bundle","items":[{"key":"zync.pem","path":"zync.pem"}]}}'

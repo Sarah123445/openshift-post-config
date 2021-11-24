@@ -9,3 +9,4 @@ bases:
 - cluster-logging.yaml
 - elasticsearch.yaml
 - grafana.yaml
+- application-gitops.yaml
