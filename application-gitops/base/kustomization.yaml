@@ -3,3 +3,4 @@ kind: Kustomization
 
 bases:
 - instance/namespace.yaml
+- instance/application-gitops.yaml
