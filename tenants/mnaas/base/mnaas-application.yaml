@@ -1,0 +1,15 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: tenants
+  namespace: openshift-gitops
+spec:
+  destination:
+    server: 'https://kubernetes.default.svc'
+  project: default
+  source:
+    path: mnaas-demo
+    repoURL: 'https://github.com/Sarah123445/deployment-manifests.git'
+    targetRevision: main
+  syncPolicy:
+    automated: {}

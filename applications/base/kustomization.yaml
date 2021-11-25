@@ -10,3 +10,4 @@ bases:
 - elasticsearch.yaml
 - grafana.yaml
 - application-gitops.yaml
+- tenants.yaml
