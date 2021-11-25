@@ -1,7 +1,0 @@
-kind: Namespace
-apiVersion: v1
-metadata:
-  name: application-gitops
-  annotations:
-    openshift.io/description: Application GitOps
-    openshift.io/display-name:  Application GitOps
