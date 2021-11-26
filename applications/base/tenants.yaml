@@ -8,7 +8,7 @@ spec:
     server: 'https://kubernetes.default.svc'
   project: default
   source:
-    path: tenants/dev
+    path: tenants/overlay/dev
     repoURL: 'https://github.com/Sarah123445/openshift-post-config.git'
     targetRevision: main
   syncPolicy:
