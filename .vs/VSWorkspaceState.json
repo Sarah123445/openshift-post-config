@@ -1,0 +1,17 @@
+{
+  "ExpandedNodes": [
+    "",
+    "\\applications",
+    "\\applications\\overlay",
+    "\\applications\\overlay\\dev",
+    "\\cluster-logging",
+    "\\cluster-logging\\base",
+    "\\cluster-logging\\base\\operator",
+    "\\gitops",
+    "\\gitops\\base",
+    "\\gitops\\base\\instance",
+    "\\gitops\\overlay"
+  ],
+  "SelectedNode": "\\applications\\overlay\\dev\\kustomization.yaml",
+  "PreviewInSolutionExplorer": false
+}
