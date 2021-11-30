@@ -11,7 +11,7 @@ spec:
     path: environment/dev
     repoURL: 'https://github.com/Sarah123445/deployment-manifests.git'
     targetRevision: main
+    kustomize:
+      version: v3.5.4
   syncPolicy:
     automated: {}
-  kustomize:
-    version: v3.5.4
