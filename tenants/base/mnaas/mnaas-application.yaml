@@ -8,7 +8,7 @@ spec:
     server: 'https://kubernetes.default.svc'
   project: default
   source:
-    path: mnaas-demo
+    path: environment/dev
     repoURL: 'https://github.com/Sarah123445/deployment-manifests.git'
     targetRevision: main
   syncPolicy:
