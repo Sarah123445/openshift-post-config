@@ -13,3 +13,5 @@ spec:
     targetRevision: main
   syncPolicy:
     automated: {}
+  kustomize:
+    version: v3.5.4
