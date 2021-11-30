@@ -22,17 +22,6 @@ spec:
                 oc exec ${POD} cat /etc/pki/tls/cert.pem >> /var/tmp/zync.pem
                 echo "Extract custom certs from config map"
                 oc get configmap custom-cert -o jsonpath={.data.custom-cert} >> /var/tmp/zync.pem
-                configmap() { 
-                oc get configmap zync-ca-bundle
-                }
-                set +e
-                echo "checking for configmap"
-                if configmap ;
-                then
-                echo "configmap exists - deleting configmap zync-ca-bundle"
-                oc delete configmap zync-ca-bundle
-                fi
-                set -e
                 echo "Create configmap on cluster containing zync.pem"
                 oc create configmap zync-ca-bundle --from-file=/var/tmp/zync.pem
                 echo "Set volume for zync pod"
