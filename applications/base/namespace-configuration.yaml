@@ -1,0 +1,15 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: namespace-configuration
+  namespace: openshift-gitops
+spec:
+  destination:
+    server: 'https://kubernetes.default.svc'
+  project: default
+  source:
+    path: namespace-configuration
+    repoURL: 'https://github.com/Sarah123445/openshift-post-config.git'
+    targetRevision: main
+  syncPolicy:
+    automated: {}

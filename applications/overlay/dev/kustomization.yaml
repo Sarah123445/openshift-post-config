@@ -54,3 +54,10 @@ patches:
     name: grafana
     namespace: openshift-gitops
   path: grafana-patch.yaml
+- target:
+    group: argoproj.io
+    version: v1alpha1
+    kind: Application
+    name: namespace-configuration
+    namespace: openshift-gitops
+  path: namespace-configuration-patch.yaml
