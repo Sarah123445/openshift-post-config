@@ -5,3 +5,4 @@ bases:
 - operator/namespace.yaml 
 - operator/operator-group.yaml
 - operator/subscription.yaml 
+- instance/namespace-configs/small-sizing.yaml
