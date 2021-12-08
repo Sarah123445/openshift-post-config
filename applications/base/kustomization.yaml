@@ -1,12 +1,12 @@
 apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 
-bases:
+resources:
 - keycloak.yaml
 - 3scale.yaml
 - gitops.yaml
 - applications.yaml
-- cluster-logging.yaml
-- elasticsearch.yaml
-- grafana.yaml
+# - cluster-logging.yaml
+# - elasticsearch.yaml
+# - grafana.yaml
 - tenants.yaml

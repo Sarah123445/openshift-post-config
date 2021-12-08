@@ -4,53 +4,53 @@ kind: Kustomization
 bases:
 - ../../base
 
-patches:
-- target:
-    group: argoproj.io
-    version: v1alpha1
-    kind: Application
-    name: keycloak
-    namespace: openshift-gitops
-  path: keycloak-patch.yaml
-- target:
-    group: argoproj.io
-    version: v1alpha1
-    kind: Application
-    name: 3scale
-    namespace: openshift-gitops
-  path: 3scale-patch.yaml
-- target:
-    group: argoproj.io
-    version: v1alpha1
-    kind: Application
-    name: gitops
-    namespace: openshift-gitops
-  path: gitops-patch.yaml
-- target:
-    group: argoproj.io
-    version: v1alpha1
-    kind: Application
-    name: applications
-    namespace: openshift-gitops
-  path: applications-patch.yaml
-- target:
-    group: argoproj.io
-    version: v1alpha1
-    kind: Application
-    name: cluster-logging
-    namespace: openshift-gitops
-  path: cluster-logging-patch.yaml
-- target:
-    group: argoproj.io
-    version: v1alpha1
-    kind: Application
-    name: elastisearch
-    namespace: openshift-gitops
-  path: elastisearch-patch.yaml
-- target:
-    group: argoproj.io
-    version: v1alpha1
-    kind: Application
-    name: grafana
-    namespace: openshift-gitops
-  path: grafana-patch.yaml
+# patches:
+# - target:
+#     group: argoproj.io
+#     version: v1alpha1
+#     kind: Application
+#     name: keycloak
+#     namespace: openshift-gitops
+#   path: keycloak-patch.yaml
+# - target:
+#     group: argoproj.io
+#     version: v1alpha1
+#     kind: Application
+#     name: 3scale
+#     namespace: openshift-gitops
+#   path: 3scale-patch.yaml
+# - target:
+#     group: argoproj.io
+#     version: v1alpha1
+#     kind: Application
+#     name: gitops
+#     namespace: openshift-gitops
+#   path: gitops-patch.yaml
+# - target:
+#     group: argoproj.io
+#     version: v1alpha1
+#     kind: Application
+#     name: applications
+#     namespace: openshift-gitops
+#   path: applications-patch.yaml
+# - target:
+#     group: argoproj.io
+#     version: v1alpha1
+#     kind: Application
+#     name: cluster-logging
+#     namespace: openshift-gitops
+#   path: cluster-logging-patch.yaml
+# - target:
+#     group: argoproj.io
+#     version: v1alpha1
+#     kind: Application
+#     name: elastisearch
+#     namespace: openshift-gitops
+#   path: elastisearch-patch.yaml
+# - target:
+#     group: argoproj.io
+#     version: v1alpha1
+#     kind: Application
+#     name: grafana
+#     namespace: openshift-gitops
+#   path: grafana-patch.yaml

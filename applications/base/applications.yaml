@@ -8,8 +8,8 @@ spec:
     server: 'https://kubernetes.default.svc'
   project: default
   source:
-    path: applications
+    path: applications/overlay/dev
     repoURL: 'https://github.com/Sarah123445/openshift-post-config.git'
-    targetRevision: main
+    targetRevision: reduced-demo
   syncPolicy:
     automated: {}

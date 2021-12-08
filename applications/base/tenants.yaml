@@ -10,6 +10,6 @@ spec:
   source:
     path: tenants/overlay/dev
     repoURL: 'https://github.com/Sarah123445/openshift-post-config.git'
-    targetRevision: main
+    targetRevision: reduced-demo
   syncPolicy:
     automated: {}

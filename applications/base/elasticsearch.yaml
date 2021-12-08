@@ -13,8 +13,8 @@ spec:
       kind: GrafanaDataSource
   project: default
   source:
-    path: elastisearch
+    path: elastisearch/overlay/dev
     repoURL: 'https://github.com/Sarah123445/openshift-post-config.git'
-    targetRevision: main
+    targetRevision: reduced-demo
   syncPolicy:
     automated: {}

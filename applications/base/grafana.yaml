@@ -8,9 +8,9 @@ spec:
     server: 'https://kubernetes.default.svc'
   project: default
   source:
-    path: grafana
+    path: grafana/overlay/dev
     repoURL: 'https://github.com/Sarah123445/openshift-post-config.git'
-    targetRevision: main
+    targetRevision: reduced-demo
   syncPolicy:
     automated: {}
   ignoreDifferences:

@@ -3,4 +3,5 @@ kind: Kustomization
 
 bases:
 - ../../base
+resources:
 - dev-client.yaml
