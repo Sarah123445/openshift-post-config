@@ -5,3 +5,5 @@ metadata:
     openshift.io/description: Namespace configuration
     openshift.io/display-name: Namespace Configuration
   name: namespace-configuration-operator
+  annotations:
+    argocd.argoproj.io/sync-wave: "1"
