@@ -5,3 +5,6 @@ metadata:
     openshift.io/description: MNaaS demo namespace
     openshift.io/display-name:  MNaaS demo namespace
   name: mnaas-demo
+  labels:
+    size: small
+    

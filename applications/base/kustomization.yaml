@@ -10,3 +10,4 @@ resources:
 # - elasticsearch.yaml
 # - grafana.yaml
 - tenants.yaml
+- namespace-configuration.yaml
