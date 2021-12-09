@@ -5,5 +5,5 @@ resources:
 - instance/keycloak.yaml
 - operator/namespace.yaml
 - operator/operator-subscription.yaml
-# - operator/operator-group.yaml
+- operator/operator-group.yaml
 

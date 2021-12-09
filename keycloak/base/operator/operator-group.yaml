@@ -4,7 +4,7 @@ metadata:
   name: keycloak-operator
   namespace: keycloak
   annotations:
-    argocd.argoproj.io/sync-wave: "2"
+    argocd.argoproj.io/sync-wave: "-2"
 spec:
   targetNamespaces:
    - keycloak
