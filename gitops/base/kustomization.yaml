@@ -3,4 +3,4 @@ kind: Kustomization
 
 resources:
 - instance/rbac.yaml
-- instance/configmap.yaml
+# - instance/configmap.yaml
