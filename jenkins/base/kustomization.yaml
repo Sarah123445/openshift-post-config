@@ -4,3 +4,4 @@ kind: Kustomization
 resources:
 - operator/namespace.yaml
 - operator/operator-subscription.yaml
+- instance/jenkins.yaml
