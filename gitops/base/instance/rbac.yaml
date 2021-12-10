@@ -95,6 +95,12 @@ rules:
       - "apps"
     resources:
       - deployments
+  - verbs:
+      - '*'
+    apiGroups:
+      - "jenkins.io"
+    resources:
+      - jenkins
 ---
 kind: ClusterRoleBinding
 apiVersion: rbac.authorization.k8s.io/v1
