@@ -6,3 +6,4 @@ resources:
 - operator/operator-subscription.yaml
 - operator/operator-group.yaml
 - instance/jenkins.yaml
+- instance/jenkins-sa-rbac.yaml
