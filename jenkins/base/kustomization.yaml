@@ -7,3 +7,4 @@ resources:
 - operator/operator-group.yaml
 - instance/jenkins.yaml
 - instance/jenkins-sa-rbac.yaml
+- instance/jenkins-build-namespace.yaml

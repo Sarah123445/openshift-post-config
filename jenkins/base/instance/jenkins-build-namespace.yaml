@@ -1,0 +1,6 @@
+kind: Namespace
+apiVersion: v1
+metadata:
+  name: jenkins-build
+  labels:
+    kubernetes.io/metadata.name: jenkins-build
