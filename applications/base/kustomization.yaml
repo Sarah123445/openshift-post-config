@@ -11,3 +11,4 @@ bases:
 - grafana.yaml
 - tenants.yaml
 - namespace-configuration.yaml
+- jenkins.yaml
