@@ -12,3 +12,4 @@ bases:
 - tenants.yaml
 - namespace-configuration.yaml
 - jenkins.yaml
+- alerting.yaml
