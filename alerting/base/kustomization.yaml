@@ -6,4 +6,5 @@ commonAnnotations:
 
 resources:
 - instance/prometheus-testrule.yaml
+- instance/alertmanager-main.yaml
 
