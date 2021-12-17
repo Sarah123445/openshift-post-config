@@ -23,9 +23,6 @@ spec:
                 echo "Extract custom certs from config map"
                 oc get configmap custom-cert -o jsonpath={.data.custom-cert} >> /var/tmp/zync.pem
                 echo "Delete configmap if it exists"
-                set +e
-                echo "Checking for configmap"
-                set -e
                 echo "Create configmap on cluster containing zync.pem"
                 oc create configmap zync-ca-bundle --from-file=/var/tmp/zync.pem
                 echo "Set volume for zync pod"
